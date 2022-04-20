@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #gameArea {
+        border: 4px solid rgb(226, 19, 19);
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(
+          0deg,
+          rgba(34, 193, 195, 1) 0%,
+          rgb(240, 8, 8) 100%
+        );
+        text-align: center;
+        overflow: hidden;
+      }
+      h1 {
+        font-family: Comic Sans MS;
+      }
+    </style>
+  </head>
+  <body>
+    
+
+    <canvas id="gameArea" width="1905" height="990"></canvas>
+
+   
+    <script>
+        const canvas = document.getElementById("gameArea");
+const ctx = canvas.getContext("2d");
+
+let x = 100;
+let y = 100;
+let radius = 50;
+let speed = 5;
+
+let upPressed = false;
+let downPressed = false;
+let leftPressed = false;
+let rightPressed = false;
+
+function drawGame() {
+  requestAnimationFrame(drawGame);
+  clearScreen();
+  inputs();
+  boundryCheck();
+  drawGreenBlob();
+}
+
+function boundryCheck() {
+  if (y < radius) {
+    y = radius;
+  }
+  
+  if (y > canvas.height - radius) {
+    y = canvas.height - radius;
+  }
+  
+  if (x < radius) {
+    x = radius;
+  }
+  
+  if (x > canvas.width - radius) {
+    x = canvas.width - radius;
+  }
+}
+
+function inputs() {
+  if (upPressed) {
+    y = y - speed;
+  }
+  if (downPressed) {
+    y = y + speed;
+  }
+  if (leftPressed) {
+    x = x - speed;
+  }
+  if (rightPressed) {
+    x = x + speed;
+  }
+}
+
+function drawGreenBlob() {
+  ctx.fillStyle = "green";
+  if (upPressed) {
+    ctx.fillStyle = "red";
+  }
+  if (downPressed) {
+    ctx.fillStyle = "blue";
+  }
+  if (leftPressed) {
+    ctx.fillStyle = "yellow";
+  }
+  if (rightPressed) {
+    ctx.fillStyle = "purple";
+  }
+
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function clearScreen() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+document.body.addEventListener("keydown", keyDown);
+document.body.addEventListener("keyup", keyUp);
+
+function keyDown(event) {
+    
+  if (event.keyCode == 38) {
+    upPressed = true;
+  }
+  
+
+  if (event.keyCode == 40) {
+    downPressed = true;
+  }
+  
+
+  if (event.keyCode == 37) {
+    leftPressed = true;
+  }
+  
+
+  if (event.keyCode == 39) {
+    rightPressed = true;
+  }
+}
+
+function keyUp(event) {
+    
+
+  if (event.keyCode == 38) {
+    upPressed = false;
+  }
+  
+
+  if (event.keyCode == 40) {
+    downPressed = false;
+  }
+  
+
+  if (event.keyCode == 37) {
+    leftPressed = false;
+  }
+  
+  
+  if (event.keyCode == 39) {
+    rightPressed = false;
+  }
+}
+
+drawGame();
+    </script>
+  </body>
+</html>
